@@ -103,6 +103,7 @@ tt11 as (
         brand_1
         on tt11.td_id1 = brand_1.td_id
       where td_id1 != '00013c98-e4fd-4532-8b4f-c3eeb9d93aff'
+      and td_id != '00001e34-68b2-4dfd-802b-cccdcdd1bc3c'
       and Tmax_interacciones >= '2023-01-01'
       and abi_brand is not null
       group by 1,2,3,4

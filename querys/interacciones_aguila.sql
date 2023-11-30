@@ -15,7 +15,7 @@ t4 AS (
     FROM
       `abi-martech-global.maz_col_cdp_inbound.l1_col_facebook_ads_with_td_id`
     WHERE
-      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 274
+      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 189
     GROUP BY
       1),
     t5 AS (
@@ -26,7 +26,7 @@ t4 AS (
     FROM
       `abi-martech-global.maz_col_cdp_inbound.l1_col_file_uploads_with_td_id`
     WHERE
-      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 111
+      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 189
     GROUP BY
       1),
     t10 AS (
@@ -37,7 +37,7 @@ t4 AS (
     FROM
       `abi-martech-global.maz_col_cdp_inbound.l1_col_sfmc_events_with_td_id`
     WHERE
-      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 206
+      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 189
       AND abi_event_type IN ('open',
         'click')
     GROUP BY
@@ -50,7 +50,7 @@ t4 AS (
     FROM
       `abi-martech-global.maz_col_cdp_inbound.l1_col_web_form_with_td_id`
     WHERE
-      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 265
+      TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 189
     GROUP BY
       1),
       brand_1 as (

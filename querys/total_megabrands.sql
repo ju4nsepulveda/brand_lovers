@@ -16,7 +16,7 @@ WHERE
     OR LOWER(abi_brand) LIKE '%club%'
     OR LOWER(abi_brand) LIKE '%corona%' )
  AND td_id NOT IN ('00013c98-e4fd-4532-8b4f-c3eeb9d93aff', '00001e34-68b2-4dfd-802b-cccdcdd1bc3c')
- AND last_interaction_days < 189
+ AND last_interaction_days <= 189
  AND last_interaction_days > 0
  
  

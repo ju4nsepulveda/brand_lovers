@@ -191,7 +191,7 @@ tt11 as (
       and td_id1 != '00001e34-68b2-4dfd-802b-cccdcdd1bc3c'
       and Tmax_interacciones >= '2023-01-01'
       and abi_brand is not null
-      -- and nInteracciones > 0
+      and nInteracciones > 0
       group by 1,2,3
       order by Dias_interaccion desc
     

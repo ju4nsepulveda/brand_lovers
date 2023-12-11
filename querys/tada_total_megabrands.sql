@@ -31,7 +31,7 @@ str as (
   VTEX_ID, MARCA
   from
   `abi-martech-maz-col.maz_cds_columbus.STR_BASE_PRODUCTO`
-  where marca in ('Aguila', 'Club Colombia', 'Corona', 'Poker')
+  where MARCA in ('Aguila', 'Club Colombia', 'Corona', 'Poker')
 
 ),
 master as (

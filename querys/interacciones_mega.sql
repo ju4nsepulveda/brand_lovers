@@ -106,22 +106,9 @@ RankedData AS (
     abi_brand,
     ROW_NUMBER() OVER (PARTITION BY td_id ORDER BY TIMESTAMP_SECONDS(time) DESC) AS row_num
   FROM `abi-martech-global.maz_col_cdp_inbound.L2_brand_behaviors`
-  WHERE lower(abi_brand) in ('aguila', 'club colombia')
-  -- AND td_id = 'ffff37ba9cb5b4a5acf138d0ad4ed6062a789b8abfd1c0a6ebe05c1c85f87bc2'
-  AND TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), TIMESTAMP_SECONDS(time), DAY) <= 189
+  WHERE TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), TIMESTAMP_SECONDS(time), DAY) <= 189
+  and lower(abi_brand) in ('aguila', 'club colombia', 'poker', 'corona', 'corona extra')
 ),
-uniques as (
-    SELECT
-    td_id,
-    abi_brand,
-    ROW_NUMBER() OVER (PARTITION BY td_id ORDER BY TIMESTAMP_SECONDS(time) DESC) AS row_num
-    FROM `abi-martech-global.maz_col_cdp_inbound.L2_brand_behaviors`
-      where lower(abi_brand) like '%guila%'
-      OR LOWER(abi_brand) LIKE '%poker%'
-      OR LOWER(abi_brand) LIKE '%club%'
-      OR LOWER(abi_brand) LIKE '%corona%' 
-      AND TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 189
-      ),
       brand_1 as (
         SELECT
   td_id,
@@ -198,7 +185,7 @@ tt11 as (
       tt11.td_id1,
       nInteracciones,
       Dias_interaccion,
-      abi_brand
+      brand_1.abi_brand
       from
       tt11
       LEFT JOIN 
@@ -210,8 +197,6 @@ tt11 as (
       'ffffe958-7629-41e0-8988-3b3b31860ef4',
       'ffffa74d1500d8b29ef5e0267e68ad939f4060f770711204e3b40697917eb7bd',
       'ffff98a1-e8e9-4381-aa60-4d09bbc8f58f')
-      -- and 
-      -- td_id1 like ('%ffff37ba9cb5b4a5acf138d0ad4ed6062a789b8abfd1c0a6ebe05c1c85f87bc2%')
       and Tmax_interacciones >= '2023-01-01'
       and abi_brand is not null
       and nInteracciones > 0

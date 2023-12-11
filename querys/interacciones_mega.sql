@@ -99,18 +99,35 @@ t4 AS (
       TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 189
     GROUP BY
       1),
-      brand_1 as (
-        select
-        distinct td_id,
-        abi_brand
-        FROM `abi-martech-global.maz_col_cdp_inbound.L2_brand_behaviors`
-        where lower(abi_brand) like '%guila%'
+
+RankedData AS (
+  SELECT
+    td_id,
+    abi_brand,
+    ROW_NUMBER() OVER (PARTITION BY td_id ORDER BY TIMESTAMP_SECONDS(time) DESC) AS row_num
+  FROM `abi-martech-global.maz_col_cdp_inbound.L2_brand_behaviors`
+  WHERE lower(abi_brand) in ('aguila', 'club colombia')
+  -- AND td_id = 'ffff37ba9cb5b4a5acf138d0ad4ed6062a789b8abfd1c0a6ebe05c1c85f87bc2'
+  AND TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), TIMESTAMP_SECONDS(time), DAY) <= 189
+),
+uniques as (
+    SELECT
+    td_id,
+    abi_brand,
+    ROW_NUMBER() OVER (PARTITION BY td_id ORDER BY TIMESTAMP_SECONDS(time) DESC) AS row_num
+    FROM `abi-martech-global.maz_col_cdp_inbound.L2_brand_behaviors`
+      where lower(abi_brand) like '%guila%'
       OR LOWER(abi_brand) LIKE '%poker%'
       OR LOWER(abi_brand) LIKE '%club%'
       OR LOWER(abi_brand) LIKE '%corona%' 
       AND TIMESTAMP_DIFF(CURRENT_TIMESTAMP(),TIMESTAMP_SECONDS(time), DAY) <= 189
-      group by 1,2
       ),
+      brand_1 as (
+        SELECT
+  td_id,
+  abi_brand
+FROM RankedData 
+WHERE row_num = 1),
 tt11 as (
       SELECT
       t1.td_id1,
@@ -181,19 +198,22 @@ tt11 as (
       tt11.td_id1,
       nInteracciones,
       Dias_interaccion,
-      -- abi_brand
+      abi_brand
       from
       tt11
       LEFT JOIN 
         brand_1
         on tt11.td_id1 = brand_1.td_id
-      where td_id1 != '00013c98-e4fd-4532-8b4f-c3eeb9d93aff'
-      and td_id1 != '00001e34-68b2-4dfd-802b-cccdcdd1bc3c'
+      where 
+      td_id1 not in ('00013c98-e4fd-4532-8b4f-c3eeb9d93aff', 
+      '00001e34-68b2-4dfd-802b-cccdcdd1bc3c',
+      'ffffe958-7629-41e0-8988-3b3b31860ef4',
+      'ffffa74d1500d8b29ef5e0267e68ad939f4060f770711204e3b40697917eb7bd',
+      'ffff98a1-e8e9-4381-aa60-4d09bbc8f58f')
+      -- and 
+      -- td_id1 like ('%ffff37ba9cb5b4a5acf138d0ad4ed6062a789b8abfd1c0a6ebe05c1c85f87bc2%')
       and Tmax_interacciones >= '2023-01-01'
       and abi_brand is not null
       and nInteracciones > 0
-      group by 1,2,3
-      order by Dias_interaccion desc
-    
-
-
+      group by 1,2,3,4
+      order by td_id1 desc

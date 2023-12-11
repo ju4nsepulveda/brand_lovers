@@ -13,7 +13,7 @@ FROM
 `abi-martech-maz-col.maz_cds_columbus.VW_FACT_ORDER_DETAILS`
 WHERE ORDER_STATUS_TYPE = 'Valid'
 AND ORDER_DATETIME>='2023-01-01'
-AND LOWER(ITEM_NAME) LIKE "%corona%"
+AND LOWER(ITEM_NAME) LIKE "%poker%"
 )
 ,
 revenue as (
@@ -31,8 +31,7 @@ str as (
   VTEX_ID, MARCA
   from
   `abi-martech-maz-col.maz_cds_columbus.STR_BASE_PRODUCTO`
-  where lower(marca) like '%corona%'
-   and submarca = 'Tropical'
+  -- where lower(marca) like '%poker%'
 
 ),
 master as (
@@ -42,6 +41,7 @@ master as (
   from
   `abi-martech-maz-col.tadabra.Master_Tada_acumulado`
   where td_id != '00013c98-e4fd-4532-8b4f-c3eeb9d93aff'
+  and td_id != '00001e34-68b2-4dfd-802b-cccdcdd1bc3c'
 ),
 
 base as (

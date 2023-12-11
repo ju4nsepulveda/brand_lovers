@@ -27,13 +27,14 @@ FROM
 GROUP BY
   1, 2
 ),
-str as (
-  select
-  VTEX_ID, MARCA
-  from
-  `abi-martech-maz-col.maz_cds_columbus.STR_BASE_PRODUCTO`
-  where lower(marca) like '%aguila%'
-  and sub_marca != 'Aguila Light'
+-- str as (
+--   select
+--   VTEX_ID, MARCA
+--   from
+--   `abi-martech-maz-col.maz_cds_columbus.STR_BASE_PRODUCTO`
+--   where lower(marca) like '%aguila%'
+--   -- and sub_marca != 'Aguila Light'
+  
 
 ),
 master as (
@@ -43,6 +44,7 @@ master as (
   from
   `abi-martech-maz-col.tadabra.Master_Tada_acumulado`
   where td_id != '00013c98-e4fd-4532-8b4f-c3eeb9d93aff'
+  and td_id != '00001e34-68b2-4dfd-802b-cccdcdd1bc3c'
 ),
 
 base as (
